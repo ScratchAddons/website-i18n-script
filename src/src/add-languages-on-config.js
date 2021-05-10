@@ -21,7 +21,7 @@ module.exports = (langaugeJsonPath, configPath, languageCode) => {
 	const config = yaml.parse(fs.readFileSync(configPath, "utf-8"))
 	config.languages[languageCode] = {
 		languageName,
-		weight: 0,
+		weight: 2,
 		contentDir: "content-i18n/" + languageCode
 	}
 	fs.writeFileSync(configPath, yaml.stringify(config))
