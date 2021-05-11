@@ -1,3 +1,5 @@
+const child_process = require("child_process")
+
 module.exports = (commitMessage, gitEmail, gitName) => {
 	child_process.execSync("git", ["config", "user.email", gitEmail])
 	child_process.execSync("git", ["config", "user.name", gitName])
