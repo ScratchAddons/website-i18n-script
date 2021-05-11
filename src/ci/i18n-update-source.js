@@ -3,7 +3,7 @@ const child_process = require("child_process")
 const { gitEmail, gitName } = require("./consts.js")
 
 require("../src/compile-en-to-i18n.js")(
-	"../website", 
+	"../website/", 
 	"en/"
 )
 
