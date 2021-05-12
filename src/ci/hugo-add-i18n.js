@@ -1,4 +1,5 @@
 const globby = require("globby")
+const { gitEmail, gitName } = require("./consts")
 
 globby.sync(["../i18n/*", "!../i18n/en"], {
 	onlyDirectories: true
