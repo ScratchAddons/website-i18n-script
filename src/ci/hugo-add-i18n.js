@@ -1,6 +1,6 @@
 const globby = require("globby")
 
-globby.sync(globby.sync(["../i18n/*", "!../i18n/en"], {
+globby.sync(["../i18n/*", "!../i18n/en"], {
 	onlyDirectories: true
 }).forEach(langPath => {
 
@@ -14,7 +14,7 @@ globby.sync(globby.sync(["../i18n/*", "!../i18n/en"], {
 		"config.yml"
 	)
 
-}))
+})
 
 require("../src/git-commit-all-and-push.js")(
 	`Update localization files (${new Date().toISOString()})`,
