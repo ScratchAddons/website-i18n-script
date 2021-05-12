@@ -1,4 +1,8 @@
 const { gitEmail, gitName } = require("./consts.js")
+const fs = require("fs-extra")
+
+if (fs.existsSync("en/")) fs.removeSync("en/")
+fs.mkdirSync("en/")
 
 require("../src/compile-en-to-i18n.js")(
 	"../website/", 
