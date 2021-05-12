@@ -8,7 +8,9 @@ module.exports = (inputPath, outputPath, languageCode) => {
 	fs.ensureDir(outputPath)
 
 	if (!languageCode) languageCode = path.basename(inputPath)
-	console.log(chalk`Compiling {inverse ${languageCode}} from i18n repo format into Hugo format...`)
+	languageCodeHugo = languageCode.replace("_", "-").toLowerCase()
+
+	console.log(chalk`Compiling {inverse ${languageCodeHugo}} from i18n repo format into Hugo format...`)
 
 	;(() => {
 		const inputContentPath = inputPath + "html-content/"
@@ -25,7 +27,7 @@ module.exports = (inputPath, outputPath, languageCode) => {
 				...fs.readFileSync(file, {encoding: "utf-8"}).split(/\r?\n/)
 			]
 
-			fs.outputFileSync(`${outputPath}content-i18n/${languageCode}/${filePath}`, output.join("\r\n"))
+			fs.outputFileSync(`${outputPath}content-i18n/${languageCodeHugo}/${filePath}`, output.join("\r\n"))
 
 		})
 	})()
@@ -38,7 +40,7 @@ module.exports = (inputPath, outputPath, languageCode) => {
 			let filePath = file.replace(inputMarkdownPath, "")
 			console.log(chalk`Copying {inverse ${filePath}}...`)
 
-			fs.outputFileSync(`${outputPath}content-i18n/${languageCode}/${filePath}`, fs.readFileSync(file, {encoding: "utf-8"}))
+			fs.outputFileSync(`${outputPath}content-i18n/${languageCodeHugo}/${filePath}`, fs.readFileSync(file, {encoding: "utf-8"}))
 		})
 	})()
 
@@ -46,7 +48,7 @@ module.exports = (inputPath, outputPath, languageCode) => {
 		console.log(chalk`Copying Hugo i18n strings file...`)
 
 		fs.ensureDirSync(`${outputPath}i18n/`)
-		fs.copyFileSync(inputPath + "hugo-i18n.yml", outputPath + `i18n/${languageCode}.yaml`)
+		fs.copyFileSync(inputPath + "hugo-i18n.yml", outputPath + `i18n/${languageCodeHugo}.yaml`)
 	})()
 
 	console.log("Compiling done!")

@@ -3,26 +3,37 @@ const yaml = require("yaml")
 const path = require("path")
 const chalk = require("chalk")
 
-module.exports = (langaugeJsonPath, configPath, languageCode) => {
+const getLanguageDisplayName = languageCode => {
+	try {
+		let intlObj = new Intl.DisplayNames([languageCode], {type: 'language'})
+		if (intlObj.of(languageCode) === languageCode) {
+			let intlObjEn = new Intl.DisplayNames(["en"], {type: 'language'})
+			return intlObjEn.of(languageCode)
+		}
+		return intlObj.of(languageCode)
+	} catch (e) {
+		if (e instanceof RangeError) return languageCode
+		else throw e
+	}
+}
 
-	console.log(langaugeJsonPath)
+module.exports = (langaugeJsonPath, configPath, languageCode) => {
 
 	if (!languageCode) {
 		const languageJsonPathPath = path.parse(langaugeJsonPath)
 		languageCode = path.basename(languageJsonPathPath.dir)
-		console.log(languageCode)
 	}
+	languageCodeHugo = languageCode.replace("_", "-").toLowerCase()
 
-	console.log(chalk`Adding {inverse ${languageCode}} to the site config...`)
+	console.log(chalk`Adding {inverse ${languageCodeHugo}} to the site config...`)
 
-	const languageJson = JSON.parse(fs.readFileSync(langaugeJsonPath, "utf-8"))
-	const languageName = languageJson.languageName.string
+	const languageName = getLanguageDisplayName(languageCodeHugo)
 
 	const config = yaml.parse(fs.readFileSync(configPath, "utf-8"))
-	config.languages[languageCode] = {
+	config.languages[languageCodeHugo] = {
 		languageName,
 		weight: 2,
-		contentDir: "content-i18n/" + languageCode
+		contentDir: "content-i18n/" + languageCodeHugo
 	}
 	fs.writeFileSync(configPath, yaml.stringify(config))
 

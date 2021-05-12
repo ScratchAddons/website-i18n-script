@@ -51,18 +51,6 @@ module.exports = (inputPath, outputPath) => {
 		fs.copyFileSync(inputPath + "i18n/en.yaml", outputPath + "hugo-i18n.yml")
 	})()
 
-	;(() => {
-		console.log(chalk`Creating {inverse language.json}...`)
-
-		const hugoConfig = yaml.parse(fs.readFileSync(inputPath + "config.yml", "utf-8"))
-		fs.outputJSONSync(outputPath + "language.json", {
-			languageName: {
-				string: hugoConfig.languages.en.languageName,
-				developer_comment: "Name of the language in the language itself, not English."
-			}
-		})
-	})()
-
 	console.log("Compiling done!")
 
 }
